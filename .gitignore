@@ -221,3 +221,4 @@ __marimo__/
 files/
 *.zip
 .DS_Store
+.venv/
