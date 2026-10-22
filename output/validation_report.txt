@@ -1,0 +1,91 @@
+
+=== 1. Input files ===
+[PASS] all 60 beneficiary + 20 inpatient files present  (80 files)
+
+=== 2. Raw data ===
+[PASS] 2008 beneficiary rows match assignment  (2,326,856 vs 2,326,856)
+[PASS] 2009 beneficiary rows match assignment  (2,291,320 vs 2,291,320)
+[PASS] 2010 beneficiary rows match assignment  (2,255,098 vs 2,255,098)
+[PASS] inpatient rows match assignment  (1,332,822 vs 1,332,822)
+[PASS] no duplicate DESYNPUF_ID within a year  (0 duplicates)
+[PASS] no DESYNPUF_ID in more than one sample  (0 IDs)
+[PASS] sex codes are 1 or 2  (0 other)
+[PASS] race codes are 1, 2, 3 or 5  (0 other)
+[PASS] state codes are 1-54  (0 other)
+[PASS] every beneficiary has a valid birth date  (0 missing/invalid)
+[PASS] ages are in a sensible range (18-110)  (25 to 101)
+[PASS] each CLM_ID belongs to one person  (0 claims)
+[PASS] every claim's DESYNPUF_ID is in a beneficiary file  (0 claims)
+
+=== 3. Output table ===
+rows in output: 6,943
+[PASS] one row per year-state-sex-race-age group  (0 duplicated)
+[PASS] no empty values  (0 rows)
+[PASS] 0 < n_at_risk and n_hospitalized <= n_at_risk  (0 rows)
+[PASS] risk between 0 and 1  (0 rows)
+[PASS] risk = n_hospitalized / n_at_risk  (0 rows)
+[PASS] age groups are the prespecified ones  (65-69, 70-74, 75-79, 80-84, 85-89, 90+, <65)
+
+=== 4. Recount from raw csvs (plain Python) ===
+claims with different admission dates across rows: 1,100 (80 of them span two years; each claim counted once at its earliest date)
+hospitalized person-years (any eligibility): 929,172
+  read 2008 beneficiary files
+  read 2009 beneficiary files
+  read 2010 beneficiary files
+[PASS] same set of strata in raw recount and output  (6,943 raw, 6,943 output)
+[PASS] every stratum: n_at_risk and n_hospitalized match raw recount  (0 differ)
+[PASS] 2008 totals match raw recount  (at risk 1,789,255 raw / 1,789,255 output, hospitalized 239,541 raw / 239,541 output, risk 0.1339)
+[PASS] 2009 totals match raw recount  (at risk 1,622,524 raw / 1,622,524 output, hospitalized 262,583 raw / 262,583 output, risk 0.1618)
+[PASS] 2010 totals match raw recount  (at risk 1,522,288 raw / 1,522,288 output, hospitalized 152,340 raw / 152,340 output, risk 0.1001)
+
+=== 5. Spot-checks ===
+
+2009 | New Jersey (31) | Female | White | 75-79
+  denominator  raw   3,557   output   3,557
+  numerator    raw     742   output     742
+  risk         raw 0.208603   output 0.208603
+[PASS] spot-check 2009/31/2/1/75-79
+  example IDs (look these up in the raw files):
+    0292CEDC3E2CEA87  DE1_0_2009_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    0870C734029C8CF4  DE1_0_2009_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    0D174AB8C86FB218  DE1_0_2009_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    017183A7E7F11A51  DE1_0_2009_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+    0498312D6B83A06A  DE1_0_2009_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+
+2010 | Missouri (26) | Male | White | 90+
+  denominator  raw     659   output     659
+  numerator    raw      75   output      75
+  risk         raw 0.113809   output 0.113809
+[PASS] spot-check 2010/26/1/1/90+
+  example IDs (look these up in the raw files):
+    E20AABE9400C920C  DE1_0_2010_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    11A0E3F820FFC289  DE1_0_2010_Beneficiary_Summary_File_Sample_2.csv  hospitalized
+    26F88E6FDE40CB98  DE1_0_2010_Beneficiary_Summary_File_Sample_2.csv  hospitalized
+    142338EC4796F74A  DE1_0_2010_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+    1B737BA78BB6C179  DE1_0_2010_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+
+2008 | Michigan (23) | Male | White | 85-89
+  denominator  raw   1,723   output   1,723
+  numerator    raw     372   output     372
+  risk         raw 0.215902   output 0.215902
+[PASS] spot-check 2008/23/1/1/85-89
+  example IDs (look these up in the raw files):
+    07211ACA395D4C4D  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    0EFD30927422260A  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    217C07815B48B462  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    03FD714E7F41D799  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+    067CD6EF673F274F  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+
+2008 | California (5) | Female | Black | 90+
+  denominator  raw     441   output     441
+  numerator    raw      48   output      48
+  risk         raw 0.108844   output 0.108844
+[PASS] spot-check 2008/5/2/2/90+
+  example IDs (look these up in the raw files):
+    3CA1C4D6535EE43A  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  hospitalized
+    50AC352105035117  DE1_0_2008_Beneficiary_Summary_File_Sample_2.csv  hospitalized
+    875D26DF16C66F50  DE1_0_2008_Beneficiary_Summary_File_Sample_2.csv  hospitalized
+    00FEDC68BFC198A5  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+    0A9695626FF6390E  DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv  not hospitalized
+
+=== Summary: 29 passed, 0 failed ===
