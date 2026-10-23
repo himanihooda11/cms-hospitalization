@@ -43,6 +43,7 @@ Output: one row per year × state × sex × race × age group (6,943 rows), with
 ```
 ├── Snakefile                 # runs the pipeline
 ├── requirements.txt          # Python packages
+├── bias_and_error.md         # Task 6: bias, error and validation checks
 ├── scripts/
 │   ├── 01_download.py
 │   ├── 02_build_risk.py
@@ -113,6 +114,7 @@ python scripts/04_eda.py
 - **State codes** are SSA codes, not FIPS. Code 54 is labeled `Other`; it has no map location and is listed under the map.
 - **Synthetic data:** DE-SynPUF has limited inferential research value and is meant for developing and testing tools.
 - **Bias and error:** how data quality and processing choices could affect the estimates, and the checks for each, are in [`bias_and_error.md`](bias_and_error.md).
+- **AI use:** a link to the original AI conversation and usage notes are in [`ai_interactions/`](ai_interactions/).
 
 ## Development workflow
 
@@ -127,3 +129,5 @@ Each task was done on its own branch, linked to a GitHub issue, and merged into 
 | Task 4: EDA and map | `task4-eda` |
 | Task 4: Snakemake | `task4-snakemake` |
 | Task 5: README | `task5-readme` |
+| Task 6: bias and error | `task6-bias` |
+| Task 7: AI interaction logs | `task7-ai-logs` |
