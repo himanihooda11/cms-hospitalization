@@ -22,15 +22,16 @@ years = [2008, 2009, 2010]
 samples = range(1, 21)
 
 # CMS only hosts the 2010 Sample 1 beneficiary file under a Sample_20 name in a
-# different folder; the standard URL returns 404. Same workaround as OHDSI ETL-CMS
-# (issue #65). check_2010_sample1() below confirms the contents are Sample 1.
+# different folder; the standard URL returns 404. Same workaround as the OHDSI ETL-CMS script.
+# check_2010_sample1() below confirms the contents are Sample 1.
+
 url_fixes = {
     "DE1_0_2010_Beneficiary_Summary_File_Sample_1.zip":
         "https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/"
         "SynPUFs/Downloads/DE1_0_2010_Beneficiary_Summary_File_Sample_20.zip",
 }
 
-no_retry = {403, 404, 410}  # dead links, retrying won't help
+no_retry = {403, 404, 410}  # dead links
 
 
 def build_file_names():
@@ -56,7 +57,7 @@ def download(session, url, dest, tries=3):
                 with open(tmp, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1024 * 1024):
                         f.write(chunk)
-            # a bad link can return an html page with a 200, so check the file
+            # a bad link can return an html page with a 200
             if not zipfile.is_zipfile(tmp):
                 print(f"  not a zip: {url}")
                 tmp.unlink(missing_ok=True)
@@ -130,7 +131,7 @@ def main():
                     not_downloaded.append(name)
                     continue
 
-            if csv_path.exists():  # safe now: csvs only appear once fully written
+            if csv_path.exists():  # csvs only appear once fully written
                 continue
             err = extract(zip_path, csv_path)
             if err:
