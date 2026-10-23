@@ -112,6 +112,7 @@ python scripts/04_eda.py
 - **2010 Sample 1 download:** the standard CMS URL for the 2010 Sample 1 beneficiary file returns 404. The script downloads it from an alternate CMS link (named `..._Sample_20.zip`, same workaround as the OHDSI ETL-CMS script) and saves it as Sample 1. Its contents were checked: 100% of its IDs are in 2009 Sample 1 and 0% are in 2010 Sample 20.
 - **State codes** are SSA codes, not FIPS. Code 54 is labeled `Other`; it has no map location and is listed under the map.
 - **Synthetic data:** DE-SynPUF has limited inferential research value and is meant for developing and testing tools.
+- **Bias and error:** how data quality and processing choices could affect the estimates, and the checks for each, are in [`bias_and_error.md`](bias_and_error.md).
 
 ## Development workflow
 
