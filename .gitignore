@@ -222,3 +222,4 @@ files/
 *.zip
 .DS_Store
 .venv/
+.snakemake/
